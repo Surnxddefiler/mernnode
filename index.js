@@ -7,7 +7,7 @@ const cors=require("cors")
 
 const app=express()
 app.use(cors({
-    origin: "https://marvelous-kheer-25e032.netlify.app/",
+    origin: "*",
     methods: ["GET", "POST", "PUT"]
 
 }))
