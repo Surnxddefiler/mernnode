@@ -9,7 +9,7 @@ router.put('/updateamount', async (req, res) => {
             const found = await Nicotine.findOne({ 'product.name': el.name, 'product.mark': el.mark, 'product.nicotine': el.nicotine });
             if (found) {
                 
-                console.log(found)
+                console.log(found + 'vovvkvj')
             }
         }
     }
