@@ -6,10 +6,19 @@ router.put('/updateamount', async (req, res) => {
     const { arr } = req.body
     try {
         for (const el of arr) {
-            const found = await Nicotine.findOne({ 'product.name': el.name, 'product.mark': el.mark, 'product.nicotine': el.nicotine });
+            const found = await Nicotine.findOne({ 'product.name': el.name, 'product.mark': el.mark });
             if (found) {
-                
-                console.log(found + 'vovvkvj')
+                found.product.forEach((product) => {
+                    if (product.name === el.name) {
+                        if (product.ammount <= 0) {
+                            const index = found.product.indexOf(product)
+                            if (index > -1) {
+                                found.product.splice(index, 1)
+                            }
+                        }
+                    }
+                });
+                await found.save();
             }
         }
     }
@@ -66,6 +75,7 @@ router.post('/postProduct', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const nicotine = await Nicotine.find({});
+        console.log(nicotine)
         res.json({ data: nicotine })
     }
     catch (e) {
@@ -75,6 +85,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const nicotine = await Nicotine.findById(req.params.id);
+        console.log(nicotine)
         res.json({ data: nicotine })
     }
     catch (e) {
