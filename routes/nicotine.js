@@ -6,7 +6,7 @@ router.put('/updateamount', async (req, res) => {
     const { arr } = req.body
     try {
         for (const el of arr) {
-            const found = await Nicotine.findOne({ 'product.name': el.name, 'product.mark': el.mark });
+            const found = await Nicotine.findOne({ 'product.name': el.name, 'product.mark': el.mark, 'product.nicotine': el.nicotine });
             if (found) {
                 found.product.forEach((product) => {
                     if (product.name === el.name) {
