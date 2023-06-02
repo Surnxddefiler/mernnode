@@ -8,17 +8,7 @@ router.put('/updateamount', async (req, res) => {
         for (const el of arr) {
             const found = await Nicotine.findOne({ 'product.name': el.name, 'product.mark': el.mark });
             if (found) {
-                found.product.forEach((product) => {
-                    if (product.name === el.name) {
-                        product.ammount -= 1
-                        if (product.ammount <= 0) {
-                            const index = found.product.indexOf(product)
-                            if (index > -1) {
-                                found.product.splice(index, 1)
-                            }
-                        }
-                    }
-                });
+                found.product.splice(index, 1)
                 await found.save();
             }
         }
