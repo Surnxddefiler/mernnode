@@ -6,11 +6,10 @@ router.put('/updateamount', async (req, res) => {
     const { arr } = req.body
     try {
         for (const el of arr) {
-            console.log('bobis')
             const found = await Nicotine.findOne({ 'product.name': el.name, 'product.mark': el.mark, 'product.nicotine': el.nicotine });
             if (found) {
                 
-                console.log('doddkljdlkj')
+                console.log(found)
             }
         }
     }
