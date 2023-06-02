@@ -10,12 +10,10 @@ router.put('/updateamount', async (req, res) => {
             if (found) {
                 found.product.forEach((product) => {
                     if (product.name === el.name) {
-                        if (product.ammount <= 0) {
                             const index = found.product.indexOf(product)
                             if (index > -1) {
                                 found.product.splice(index, 1)
                             }
-                        }
                     }
                 });
                 await found.save();
