@@ -66,7 +66,6 @@ router.post('/postProduct', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const nicotine = await Nicotine.find({});
-        console.log(nicotine)
         res.json({ data: nicotine })
     }
     catch (e) {
@@ -76,7 +75,6 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const nicotine = await Nicotine.findById(req.params.id);
-        console.log(nicotine)
         res.json({ data: nicotine })
     }
     catch (e) {
