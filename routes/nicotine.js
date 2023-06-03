@@ -5,11 +5,10 @@ const router = Router()
 router.put('/updateamount', async (req, res) => {
     const { arr } = req.body
     try {
-        for (const el of arr) {
-            const found = await Nicotine.findOne({ 'product.name': el.name, 'product.mark': el.mark, 'product.nicotine': el.nicotine });
+            const found = await Nicotine.findOne({ 'product.name': arr.name, 'product.mark': arr.mark, 'product.nicotine': arr.nicotine });
             if (found) {
                 found.product.forEach((product) => {
-                    if (product.name === el.name) {
+                    if (product.name === arr.name) {
                             const index = found.product.indexOf(product)
                             if (index > -1) {
                                 found.product.splice(index, 1)
@@ -18,7 +17,6 @@ router.put('/updateamount', async (req, res) => {
                 });
                 await found.save();
             }
-        }
     }
     catch (e) {
         res.status(500).json({ message: `${e}` })
