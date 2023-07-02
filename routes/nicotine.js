@@ -50,6 +50,7 @@ router.put('/changecost', async(req, res)=>{
 router.post('/postProduct', async (req, res) => {
     try {
         const {e} = req.body;
+        console.log(e)
         const type=e.type
         const existingRecord = await Nicotine.findOne({ type });
         existingRecord.product.push({
