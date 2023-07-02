@@ -7,7 +7,7 @@ router.put('/updateamount', async (req, res) => {
     try {
             const found = await Nicotine.findOne({ 'product.name': arr.name, 'product.mark': arr.mark, 'product.nicotine': arr.nicotine });
             if (found) {
-                console.log(found)
+                console.log('ok')
                 found.product.forEach((product) => {
                     if (product.name === arr.name) {
                             const index = found.product.indexOf(product)
