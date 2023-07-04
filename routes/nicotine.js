@@ -3,27 +3,30 @@ const Nicotine = require('../models/nicotine.model')
 const router = Router()
 
 router.put('/updateamount', async (req, res) => {
-    const { arr } = req.body
-    console.log(arr)
+    const { arr } = req.body;
+    console.log(arr);
     try {
-            const found = await Nicotine.findOne({ 'product.name': arr.name, 'product.mark': arr.mark, 'product.nicotine': arr.nicotine });
-            if (found) {
-                found.product.forEach((product) => {
-                    if (product.name === arr.name && product.mark === arr.mark && product.nicotine === arr.nicotine) {
-                            const index = found.product.indexOf(product)
-                            console.log(found.product[index])
-                            if (index > -1) {
-                                found.product.splice(index, 1)
-                            }
+        const found = await Nicotine.findOne({ 'product.name': arr.name, 'product.mark': arr.mark, 'product.nicotine': arr.nicotine });
+        if (found) {
+            let isDeleted = false;
+            found.product.forEach((product) => {
+                if (isDeleted) return; // Прекращение выполнения цикла, если объект уже удален
+                if (product.name === arr.name && product.mark === arr.mark && product.nicotine === arr.nicotine) {
+                    const index = found.product.indexOf(product);
+                    console.log(found.product[index]);
+                    if (index > -1) {
+                        found.product.splice(index, 1);
+                        isDeleted = true; // Установка флага удаления объекта
                     }
-                });
-                await found.save();
-            }
+                }
+            });
+            await found.save();
+        }
+    } catch (e) {
+        res.status(500).json({ message: `${e}` });
     }
-    catch (e) {
-        res.status(500).json({ message: `${e}` })
-    }
-})
+});
+
 
 router.put('/changecost', async(req, res)=>{
     try{
