@@ -4,12 +4,14 @@ const router = Router()
 
 router.put('/updateamount', async (req, res) => {
     const { arr } = req.body
+    console.log(arr)
     try {
             const found = await Nicotine.findOne({ 'product.name': arr.name, 'product.mark': arr.mark, 'product.nicotine': arr.nicotine });
             if (found) {
                 found.product.forEach((product) => {
-                    if (product.name === arr.name && product.nicotine===arr.nicotine && product.mark===arr.mark) {
+                    if (product.name === arr.name && product.mark === arr.mark && product.nicotine === arr.nicotine) {
                             const index = found.product.indexOf(product)
+                            console.log(found.product[index])
                             if (index > -1) {
                                 found.product.splice(index, 1)
                             }
