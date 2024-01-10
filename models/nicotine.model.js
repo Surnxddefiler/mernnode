@@ -11,6 +11,7 @@ const schema= new Schema({
         ammount: Number,
         mark: String,
         cost: Number,
+        color: String
       }
     ]
 },
