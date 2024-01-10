@@ -59,7 +59,7 @@ router.post('/postProduct', async (req, res) => {
             cost: e.cost,
             mark: e.mark,
             ammount: e.ammount,
-
+            color: e.color
         })
         await existingRecord.save();
     }
