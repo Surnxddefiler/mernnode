@@ -4,16 +4,16 @@ const router = Router()
 
 router.put('/updateamount', async (req, res) => {
     const { arr } = req.body
-    console.log(arr)
+    console.log(arr + 'приняло массив')
     try {
             const found = await Nicotine.findOne({ 'product.name': arr.name, 'product.mark': arr.mark, 'product.nicotine': arr.nicotine });
             if (found) {
                 found.product.forEach((product) => {
                     if (product.name === arr.name && product.mark === arr.mark && product.nicotine === arr.nicotine) {
                             const index = found.product.indexOf(product)
-                            console.log("ok")
                             if (index > -1) {
                                 found.product.splice(index, 1)
+                                console.log('нашло и удалило продукт')
                             }
                     }
                 });
@@ -50,7 +50,7 @@ router.put('/changecost', async(req, res)=>{
 router.post('/postProduct', async (req, res) => {
     try {
         const {e} = req.body;
-        console.log(e)
+        console.log(e + 'продукт пришел')
         const type=e.type
         const existingRecord = await Nicotine.findOne({ type });
         existingRecord.product.push({
@@ -62,6 +62,7 @@ router.post('/postProduct', async (req, res) => {
             color: e.color
         })
         await existingRecord.save();
+        await console.log('product запушен')
     }
     catch (e) {
         res.status(500).json({ message: `${e}` })
