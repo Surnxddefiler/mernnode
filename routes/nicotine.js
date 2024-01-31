@@ -76,9 +76,11 @@ router.get('/', async (req, res) => {
     try {
         const nicotine = await Nicotine.find({});
         res.json({ data: nicotine })
+        console.log('norm')
     }
     catch (e) {
         res.status(500).json({ message: 'pizdec' })
+        console.log('nenorm')
     }
 })
 router.get('/:id', async (req, res) => {
