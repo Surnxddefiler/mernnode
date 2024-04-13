@@ -2,6 +2,8 @@ const { Router } = require('express');
 const Nicotine = require('../models/nicotine.model')
 const router = Router()
 
+
+//delete product
 router.put('/updateamount', async (req, res) => {
     const { arr } = req.body
     console.log(arr + 'приняло массив')
@@ -53,7 +55,7 @@ router.post('/postProduct', async (req, res) => {
         console.log(e + 'продукт пришел')
         const type=e.type
         const existingRecord = await Nicotine.findOne({ type });
-        existingRecord.product.push({
+        existingRecord.product.unshift({
             name: e.name,
             nicotine: e.nicotine,
             cost: e.cost,
