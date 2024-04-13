@@ -55,7 +55,7 @@ router.post('/postProduct', async (req, res) => {
         console.log(e + 'продукт пришел')
         const type=e.type
         const existingRecord = await Nicotine.findOne({ type });
-        existingRecord.product.unshift({
+        existingRecord.product.push({
             name: e.name,
             nicotine: e.nicotine,
             cost: e.cost,
