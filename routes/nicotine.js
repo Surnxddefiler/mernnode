@@ -61,7 +61,7 @@ router.post("/postProduct", async (req, res) => {
     const type = e.type;
     const existingRecord = await Nicotine.findOne({ type });
     if (place) {
-      existingRecord.splice(place, 0, e);
+      existingRecord.product.splice(place, 0, e);
     } else {
       existingRecord.product.push({
         name: e.name,
