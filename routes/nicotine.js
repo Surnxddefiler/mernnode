@@ -55,7 +55,7 @@ router.post("/postProduct", async (req, res) => {
   try {
     const { e } = req.body;
     //index where to add
-    const place = e.place;
+    const place = e.place - 1;
 
     console.log(e.place + "продукт пришел");
     const type = e.type;
