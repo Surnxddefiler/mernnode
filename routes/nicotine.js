@@ -55,13 +55,13 @@ router.post("/postProduct", async (req, res) => {
   try {
     const { e } = req.body;
     //index where to add
-    const place = e.place - 1;
+    const place = e.place;
 
     console.log(e.place + "продукт пришел");
     const type = e.type;
     const existingRecord = await Nicotine.findOne({ type });
     if (place) {
-      existingRecord.product.splice(place, 0, e);
+      existingRecord.product.splice(place - 1, 0, e);
     } else {
       existingRecord.product.push({
         name: e.name,
