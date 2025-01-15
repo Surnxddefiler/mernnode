@@ -1,5 +1,6 @@
-const {Schema, model}= require('mongoose');
-const schema= new Schema({
+const { Schema, model } = require("mongoose");
+const schema = new Schema(
+  {
     type: String,
     firstFilter: String,
     secondFilter: String,
@@ -11,13 +12,14 @@ const schema= new Schema({
         ammount: Number,
         mark: String,
         cost: Number,
-        color: String
-      }
-    ]
-},
-{
+        color: String,
+        stock: Boolean,
+      },
+    ],
+  },
+  {
     collection: "nicotine",
-    versionKey: false
-}
-)
-module.exports=model('nicotine',schema)
+    versionKey: false,
+  }
+);
+module.exports = model("nicotine", schema);
