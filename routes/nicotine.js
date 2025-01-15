@@ -98,4 +98,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//stock function
+
+router.put("/sotck", async (req, res) => {
+  const { arr } = req.body;
+  try {
+    const found = await Nicotine.findOne({
+      "product.name": arr.name,
+      "product.mark": arr.mark,
+      "product.nicotine": arr.nicotine,
+    });
+    console.log(found);
+  } catch (e) {
+    res.status(500).json({ message: `${e}` });
+  }
+});
+
 module.exports = router;
