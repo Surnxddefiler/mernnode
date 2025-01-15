@@ -108,7 +108,22 @@ router.put("/stock", async (req, res) => {
       "product.mark": arr.mark,
       "product.nicotine": arr.nicotine,
     });
-    console.log(found);
+    if (found) {
+      found.product.forEach((product) => {
+        if (
+          product.name === arr.name &&
+          product.mark === arr.mark &&
+          product.nicotine === arr.nicotine
+        ) {
+          console.log(product);
+          if (index > -1) {
+            found.product.splice(index, 1);
+            console.log("нашло и удалило продукт");
+          }
+        }
+      });
+      await found.save();
+    }
   } catch (e) {
     res.status(500).json({ message: `${e}` });
   }
