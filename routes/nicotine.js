@@ -121,7 +121,7 @@ router.put("/stock", async (req, res) => {
           //   console.log("нашло и удалило продукт");
           // }
           console.log(arr.stock);
-          product.stock = !arr.stock;
+          product.stock = arr.stock;
         }
       });
       await found.save();
