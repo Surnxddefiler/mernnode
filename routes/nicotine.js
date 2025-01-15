@@ -70,6 +70,7 @@ router.post("/postProduct", async (req, res) => {
         mark: e.mark,
         ammount: e.ammount,
         color: e.color,
+        stock: true,
       });
     }
     await existingRecord.save();
