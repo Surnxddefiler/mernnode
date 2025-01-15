@@ -116,10 +116,10 @@ router.put("/stock", async (req, res) => {
           product.nicotine === arr.nicotine
         ) {
           console.log(product);
-          if (index > -1) {
-            found.product.splice(index, 1);
-            console.log("нашло и удалило продукт");
-          }
+          // if (index > -1) {
+          //   found.product.splice(index, 1);
+          //   console.log("нашло и удалило продукт");
+          // }
         }
       });
       await found.save();
