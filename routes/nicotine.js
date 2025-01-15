@@ -100,7 +100,7 @@ router.get("/:id", async (req, res) => {
 
 //stock function
 
-router.put("/sotck", async (req, res) => {
+router.put("/stock", async (req, res) => {
   const { arr } = req.body;
   try {
     const found = await Nicotine.findOne({
