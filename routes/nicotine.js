@@ -120,6 +120,8 @@ router.put("/stock", async (req, res) => {
           //   found.product.splice(index, 1);
           //   console.log("нашло и удалило продукт");
           // }
+          console.log(arr.stock);
+          // product.stock=!arr.stock
         }
       });
       await found.save();
