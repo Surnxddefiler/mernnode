@@ -132,4 +132,14 @@ router.put("/stock", async (req, res) => {
   }
 });
 
+let discount = false;
+router.get("/status", (req, res) => {
+  res.json({ discount });
+});
+
+router.post("/toggle-status", (req, res) => {
+  discount = !discount;
+  res.json({ discount });
+});
+
 module.exports = router;
