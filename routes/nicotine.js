@@ -134,7 +134,12 @@ router.put("/stock", async (req, res) => {
 
 let discount = false;
 router.get("/status", (req, res) => {
-  res.json({ discount });
+  try {
+    res.json({ discount });
+  } catch (e) {
+    console.error("Ошибка при разборе JSON:", e);
+    res.status(500).json({ error: "Неверный формат JSON" });
+  }
 });
 
 router.post("/toggle-status", (req, res) => {
