@@ -95,7 +95,7 @@ router.get("/:id", async (req, res) => {
     const nicotine = await Nicotine.findById(req.params.id);
     res.json({ data: nicotine });
   } catch (e) {
-    res.status(500).json({ message: "pizdec" });
+    res.status(500).json({ message: "pizdecc" });
   }
 });
 
