@@ -90,6 +90,22 @@ router.get("/", async (req, res) => {
     console.log("nenorm");
   }
 });
+
+let discount = false;
+router.get("/status", (req, res) => {
+  try {
+    res.json({ discount });
+  } catch (e) {
+    console.error("Ошибка при разборе JSON:", e);
+    res.status(500).json({ error: "Неверный формат JSON" });
+  }
+});
+
+router.post("/toggle-status", (req, res) => {
+  discount = !discount;
+  res.json({ discount });
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const nicotine = await Nicotine.findById(req.params.id);
@@ -130,21 +146,6 @@ router.put("/stock", async (req, res) => {
   } catch (e) {
     res.status(500).json({ message: `${e}` });
   }
-});
-
-let discount = false;
-router.get("/status", (req, res) => {
-  try {
-    res.json({ discount });
-  } catch (e) {
-    console.error("Ошибка при разборе JSON:", e);
-    res.status(500).json({ error: "Неверный формат JSON" });
-  }
-});
-
-router.post("/toggle-status", (req, res) => {
-  discount = !discount;
-  res.json({ discount });
 });
 
 module.exports = router;
