@@ -104,6 +104,7 @@ router.get("/status", (req, res) => {
 router.post("/toggle-status", (req, res) => {
   const { arr } = req.body;
   discount = arr;
+  console.log(arr);
   res.json({ discount });
 });
 
