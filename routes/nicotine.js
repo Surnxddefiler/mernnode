@@ -91,7 +91,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-let discount = false;
+let discount = 0;
 router.get("/status", (req, res) => {
   try {
     res.json({ discount });
@@ -102,7 +102,8 @@ router.get("/status", (req, res) => {
 });
 
 router.post("/toggle-status", (req, res) => {
-  discount = !discount;
+  const { arr } = req.body;
+  discount = arr;
   res.json({ discount });
 });
 
