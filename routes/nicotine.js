@@ -51,11 +51,27 @@ router.put("/changecost", async (req, res) => {
   } catch (e) {}
 });
 
-router.post("/postProduct", async (req, res) => {
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // создай папку uploads
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
+router.post("/postProduct", upload.array("gallery"), async (req, res) => {
   try {
     const { e } = req.body;
     //index where to add
     const place = e.place;
+
+    const gallery = req.files.map((file) => `/uploads/${file.filename}`);
 
     console.log(e.place + "продукт пришел");
     const type = e.type;
