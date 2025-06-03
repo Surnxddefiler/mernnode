@@ -87,6 +87,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     await existingRecord.save();
     await console.log("product запушен");
   } catch (e) {
+    console.log(req.body);
     res.status(500).json({ message: `${e}` });
   }
 });
