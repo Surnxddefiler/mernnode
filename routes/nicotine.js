@@ -66,7 +66,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
       contentType: file.mimetype,
     }));
 
-    console.log(e.place + "продукт пришел");
+    // console.log(place + "продукт пришел");
     const type = e.type;
     const existingRecord = await Nicotine.findOne({ type });
     if (place) {
