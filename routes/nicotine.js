@@ -51,18 +51,7 @@ router.put("/changecost", async (req, res) => {
   } catch (e) {}
 });
 
-const multer = require("multer");
-const path = require("path");
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // создай папку uploads
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.post("/postProduct", upload.array("gallery"), async (req, res) => {
@@ -71,7 +60,10 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     //index where to add
     const place = e.place;
 
-    const gallery = req.files.map((file) => `/uploads/${file.filename}`);
+    const gallery = req.files.map((file) => ({
+      data: file.buffer,
+      contentType: file.mimetype,
+    }));
 
     console.log(e.place + "продукт пришел");
     const type = e.type;
@@ -87,7 +79,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
         ammount: e.ammount,
         color: e.color,
         stock: true,
-        gallery: e.gallery,
+        gallery: gallery,
       });
     }
     await existingRecord.save();

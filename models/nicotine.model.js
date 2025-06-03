@@ -14,7 +14,12 @@ const schema = new Schema(
         cost: Number,
         color: String,
         stock: Boolean,
-        gallery: [String],
+        gallery: [
+          {
+            data: Buffer,
+            contentType: String,
+          },
+        ],
       },
     ],
   },
