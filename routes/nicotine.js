@@ -59,8 +59,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
   try {
     const { e } = req.body;
     //index where to add
-    console.log(e.place);
-    const place = e.place;
+    const place = e.place ? e.place : 0;
 
     const gallery = req.files.map((file) => ({
       data: file.buffer,
