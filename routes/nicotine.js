@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const Nicotine = require("../models/nicotine.model");
+const multer = require("multer");
 const router = Router();
 
 //delete product
