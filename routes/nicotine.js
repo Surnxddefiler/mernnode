@@ -67,22 +67,25 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
       contentType: file.mimetype,
     }));
     console.log(gallery);
+
+    const productObj = {
+      name: e.name,
+      nicotine: e.nicotine,
+      cost: e.cost,
+      mark: e.mark,
+      ammount: e.ammount,
+      color: e.color,
+      stock: true,
+      gallery: gallery,
+    };
+
     // console.log(place + "продукт пришел");
     const type = e.type;
     const existingRecord = await Nicotine.findOne({ type });
     if (place) {
-      existingRecord.product.splice(place - 1, 0, e);
+      existingRecord.product.splice(place - 1, 0, productObj);
     } else {
-      existingRecord.product.push({
-        name: e.name,
-        nicotine: e.nicotine,
-        cost: e.cost,
-        mark: e.mark,
-        // ammount: e.ammount,
-        color: e.color,
-        stock: true,
-        gallery: gallery,
-      });
+      existingRecord.product.push(productObj);
     }
     await existingRecord.save();
     await console.log("product запушен");
