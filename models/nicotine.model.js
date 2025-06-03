@@ -14,6 +14,7 @@ const schema = new Schema(
         cost: Number,
         color: String,
         stock: Boolean,
+        gallery: Array,
       },
     ],
   },

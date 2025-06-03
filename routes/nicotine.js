@@ -71,6 +71,7 @@ router.post("/postProduct", async (req, res) => {
         ammount: e.ammount,
         color: e.color,
         stock: true,
+        gallery: e.gallery,
       });
     }
     await existingRecord.save();
