@@ -57,7 +57,7 @@ const upload = multer({ storage });
 
 router.post("/postProduct", upload.array("gallery"), async (req, res) => {
   try {
-    const { e } = req.body;
+    const e = req.body;
     //index where to add
     const place = e.place ? e.place : 0;
 
