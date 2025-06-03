@@ -9,7 +9,7 @@ const schema = new Schema(
       {
         name: String,
         nicotine: String,
-        ammount: Number,
+        // ammount: Number,
         mark: String,
         cost: Number,
         color: String,
