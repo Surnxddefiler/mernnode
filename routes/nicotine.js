@@ -77,7 +77,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
         nicotine: e.nicotine,
         cost: e.cost,
         mark: e.mark,
-        ammount: e.ammount,
+        // ammount: e.ammount,
         color: e.color,
         stock: true,
         gallery: gallery,
