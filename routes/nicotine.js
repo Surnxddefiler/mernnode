@@ -59,14 +59,14 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
   try {
     const e = req.body;
     //index where to add
-    console.log(req.files);
+
     const place = e.place ? e.place : 0;
 
     const gallery = req.files.map((file) => ({
       data: file.buffer,
       contentType: file.mimetype,
     }));
-
+    console.log(gallery);
     // console.log(place + "продукт пришел");
     const type = e.type;
     const existingRecord = await Nicotine.findOne({ type });
