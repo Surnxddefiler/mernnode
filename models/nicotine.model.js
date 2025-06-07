@@ -16,7 +16,7 @@ const schema = new Schema(
         stock: Boolean,
         gallery: [
           {
-            data: Buffer,
+            url: String,
             contentType: String,
           },
         ],
