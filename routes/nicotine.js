@@ -78,11 +78,11 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
 
     const place = e.place ? e.place : 0;
 
-    const gallery = req.files.map((file) => ({
-      url: `${req.protocol}://${req.get("host")}/uploads/${file.filename}`,
-      contentType: file.mimetype,
-    }));
-    console.log(gallery);
+    // const gallery = req.files.map((file) => ({
+    //   url: `${req.protocol}://${req.get("host")}/uploads/${file.filename}`,
+    //   contentType: file.mimetype,
+    // }));
+    // console.log(gallery);
 
     const productObj = {
       name: e.name,
@@ -92,7 +92,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
       ammount: e.ammount,
       color: e.color,
       stock: true,
-      gallery: gallery,
+      // gallery: gallery,
     };
 
     // console.log(place + "продукт пришел");
