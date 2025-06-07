@@ -62,7 +62,7 @@ router.put("/changecost", async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Папка для загрузки
+    cb(null, uploadDir); // Папка для загрузки
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
