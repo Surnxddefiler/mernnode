@@ -3,6 +3,35 @@ const Nicotine = require("../models/nicotine.model");
 const multer = require("multer");
 const router = Router();
 
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+
+// Делаем папку доступной по URL
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+import multer from "multer";
+import path from "path";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const ext = path.extname(file.originalname);
+    cb(null, uniqueSuffix + ext);
+  },
+});
+
+const upload = multer({ storage });
+
 //delete product
 router.put("/updateamount", async (req, res) => {
   const { arr } = req.body;
@@ -52,9 +81,6 @@ router.put("/changecost", async (req, res) => {
   } catch (e) {}
 });
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-
 router.post("/postProduct", upload.array("gallery"), async (req, res) => {
   try {
     const e = req.body;
@@ -63,9 +89,10 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     const place = e.place ? e.place : 0;
 
     const gallery = req.files.map((file) => ({
-      data: file.buffer,
+      url: `${req.protocol}://${req.get("host")}/uploads/${file.filename}`,
       contentType: file.mimetype,
     }));
+
     console.log(gallery);
 
     const productObj = {
