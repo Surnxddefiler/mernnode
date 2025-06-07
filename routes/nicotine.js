@@ -2,13 +2,7 @@ const { Router } = require("express");
 const Nicotine = require("../models/nicotine.model");
 const multer = require("multer");
 const router = Router();
-const fs = require("fs");
-const path = require("path");
 
-const uploadPath = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath);
-}
 //delete product
 router.put("/updateamount", async (req, res) => {
   const { arr } = req.body;
@@ -58,15 +52,7 @@ router.put("/changecost", async (req, res) => {
   } catch (e) {}
 });
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Папка для загрузки
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.post("/postProduct", upload.array("gallery"), async (req, res) => {
@@ -74,15 +60,13 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     const e = req.body;
     //index where to add
 
-    console.log(req.file);
-
     const place = e.place ? e.place : 0;
 
-    // const gallery = req.files.map((file) => ({
-    //   url: `${req.protocol}://${req.get("host")}/uploads/${file.filename}`,
-    //   contentType: file.mimetype,
-    // }));
-    // console.log(gallery);
+    const gallery = req.files.map((file) => ({
+      data: file.buffer,
+      contentType: file.mimetype,
+    }));
+    console.log(gallery);
 
     const productObj = {
       name: e.name,
@@ -92,7 +76,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
       ammount: e.ammount,
       color: e.color,
       stock: true,
-      // gallery: gallery,
+      gallery: gallery,
     };
 
     // console.log(place + "продукт пришел");
