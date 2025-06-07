@@ -2,8 +2,8 @@ const { Router } = require("express");
 const Nicotine = require("../models/nicotine.model");
 const multer = require("multer");
 const router = Router();
-import fs from "fs";
-import path from "path";
+const fs = require("fs");
+const path = require("path");
 
 const uploadPath = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadPath)) {
