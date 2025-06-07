@@ -91,7 +91,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     );
 
     const gallery = await Promise.all(uploadPromises);
-
+    console.log(gallery);
     const productObj = {
       name: e.name,
       nicotine: e.nicotine,
