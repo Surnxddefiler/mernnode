@@ -3,6 +3,14 @@ const Nicotine = require("../models/nicotine.model");
 const multer = require("multer");
 const router = Router();
 
+const fs = require("fs");
+
+// Создать папку 'uploads', если она не существует
+const uploadDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
 //delete product
 router.put("/updateamount", async (req, res) => {
   const { arr } = req.body;
