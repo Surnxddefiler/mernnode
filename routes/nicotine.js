@@ -52,7 +52,15 @@ router.put("/changecost", async (req, res) => {
   } catch (e) {}
 });
 
-const storage = multer.memoryStorage();
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Папка для загрузки
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
 const upload = multer({ storage });
 
 router.post("/postProduct", upload.array("gallery"), async (req, res) => {
@@ -63,7 +71,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     const place = e.place ? e.place : 0;
 
     const gallery = req.files.map((file) => ({
-      data: file.buffer,
+      url: `${req.protocol}://${req.get("host")}/uploads/${file.filename}`,
       contentType: file.mimetype,
     }));
     console.log(gallery);
