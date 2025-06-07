@@ -13,6 +13,7 @@ app.use(
 );
 app.use(express.json({ extended: true }));
 app.use("/api/nicotine", require("./routes/nicotine"));
+app.use("/uploads", express.static("uploads"));
 
 const start = async () => {
   try {
