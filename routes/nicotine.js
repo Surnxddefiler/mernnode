@@ -11,6 +11,17 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+const multer = require("multer");
+const storage = multer.memoryStorage(); // Используем память
+const upload = multer({ storage });
+
 //delete product
 router.put("/updateamount", async (req, res) => {
   const { arr } = req.body;
@@ -60,16 +71,6 @@ router.put("/changecost", async (req, res) => {
   } catch (e) {}
 });
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir); // Папка для загрузки
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage });
 router.post("/postProduct", upload.array("gallery"), async (req, res) => {
   try {
     const e = req.body;
@@ -77,11 +78,19 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
 
     const place = e.place ? e.place : 0;
 
-    const gallery = req.files.map((file) => ({
-      url: `/uploads/${file.filename}`,
-      contentType: file.mimetype,
-    }));
-    console.log(gallery);
+    const uploadPromises = req.files.map((file) =>
+      cloudinary.uploader
+        .upload_stream({ resource_type: "image" }, (error, result) => {
+          if (error) throw error;
+          return {
+            url: result.secure_url,
+            contentType: file.mimetype,
+          };
+        })
+        .end(file.buffer)
+    );
+
+    const gallery = await Promise.all(uploadPromises);
 
     const productObj = {
       name: e.name,
