@@ -3,32 +3,6 @@ const Nicotine = require("../models/nicotine.model");
 const multer = require("multer");
 const router = Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Папка, куда будут сохраняться файлы
-    cb(null, "public/uploads/");
-  },
-  filename: (req, file, cb) => {
-    // Генерация уникального имени файла
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  },
-});
-
-// Фильтр для проверки типа файла
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image/")) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only image files are allowed!"), false);
-  }
-};
-
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-});
-
 //delete product
 router.put("/updateamount", async (req, res) => {
   const { arr } = req.body;
@@ -78,6 +52,9 @@ router.put("/changecost", async (req, res) => {
   } catch (e) {}
 });
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 router.post("/postProduct", upload.array("gallery"), async (req, res) => {
   try {
     const e = req.body;
@@ -86,7 +63,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     const place = e.place ? e.place : 0;
 
     const gallery = req.files.map((file) => ({
-      path: "/uploads/" + file.filename,
+      data: file.buffer,
       contentType: file.mimetype,
     }));
     console.log(gallery);

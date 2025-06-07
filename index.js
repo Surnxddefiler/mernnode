@@ -13,7 +13,7 @@ app.use(
 );
 app.use(express.json({ extended: true }));
 app.use("/api/nicotine", require("./routes/nicotine"));
-app.use("/public", express.static(path.join(__dirname, "public")));
+
 const start = async () => {
   try {
     await mongoose.connect(process.env.db, {
