@@ -1,23 +1,12 @@
 const { Router } = require("express");
 const Nicotine = require("../models/nicotine.model");
+const express = require("express");
+const path = require("path");
 const multer = require("multer");
-const router = Router();
-
-import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+const { Router } = require("express");
 const app = express();
 
-// Делаем папку доступной по URL
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-import multer from "multer";
-import path from "path";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
