@@ -77,21 +77,24 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     //index where to add
 
     const place = e.place ? e.place : 0;
+    // Создаем функцию для загрузки одного файла в Cloudinary
+    const uploadToCloudinary = (file) => {
+      return new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream({ resource_type: "image" }, (error, result) => {
+            if (error) return reject(error);
+            resolve({
+              url: result.secure_url,
+              contentType: file.mimetype,
+            });
+          })
+          .end(file.buffer);
+      });
+    };
 
-    const uploadPromises = req.files.map((file) =>
-      cloudinary.uploader
-        .upload_stream({ resource_type: "image" }, (error, result) => {
-          if (error) throw error;
-          return {
-            url: result.secure_url,
-            contentType: file.mimetype,
-          };
-        })
-        .end(file.buffer)
-    );
+    // Загружаем все файлы параллельно
+    const gallery = await Promise.all(req.files.map(uploadToCloudinary));
 
-    const gallery = await Promise.all(uploadPromises);
-    console.log(gallery);
     const productObj = {
       name: e.name,
       nicotine: e.nicotine,
