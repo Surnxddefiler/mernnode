@@ -33,12 +33,18 @@ router.put("/updateamount", async (req, res) => {
       "product.nicotine": arr.nicotine,
     });
     if (found) {
+      const imagesToDelete = [];
       found.product.forEach((product) => {
         if (
           product.name === arr.name &&
           product.mark === arr.mark &&
           product.nicotine === arr.nicotine
         ) {
+          if (product.gallery && product.gallery.length > 0) {
+            product.gallery.forEach((image) => {
+              imagesToDelete.push(image.url);
+            });
+          }
           const index = found.product.indexOf(product);
           if (index > -1) {
             found.product.splice(index, 1);
@@ -47,6 +53,17 @@ router.put("/updateamount", async (req, res) => {
         }
       });
       await found.save();
+
+      if (imagesToDelete.length > 0) {
+        const deletePromises = imagesToDelete.map((url) => {
+          // Извлекаем public_id из URL (последняя часть перед расширением)
+          const publicId = url.split("/").pop().split(".")[0];
+          return cloudinary.uploader.destroy(publicId);
+        });
+
+        await Promise.all(deletePromises);
+        console.log("Изображения удалены из Cloudinary");
+      }
     }
   } catch (e) {
     res.status(500).json({ message: `${e}` });
