@@ -2,7 +2,13 @@ const { Router } = require("express");
 const Nicotine = require("../models/nicotine.model");
 const multer = require("multer");
 const router = Router();
+import fs from "fs";
+import path from "path";
 
+const uploadPath = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath);
+}
 //delete product
 router.put("/updateamount", async (req, res) => {
   const { arr } = req.body;
