@@ -164,7 +164,7 @@ router.get("/status", (req, res) => {
 
 router.post("/changenp", (req, res) => {
   np = !np;
-  res.json({ discount });
+  res.json({ np });
 });
 
 router.post("/toggle-status", (req, res) => {
