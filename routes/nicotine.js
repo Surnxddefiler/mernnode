@@ -126,7 +126,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     // console.log(place + "продукт пришел");
     const type = e.type;
     const existingRecord = await Nicotine.findOne({ type });
-    if (place) {
+    if (place !== 0) {
       existingRecord.product.splice(place - 1, 0, productObj);
     } else {
       existingRecord.product.push(productObj);
