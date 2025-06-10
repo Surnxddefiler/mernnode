@@ -152,13 +152,19 @@ router.get("/", async (req, res) => {
 });
 
 let discount = 0;
+let np = false;
 router.get("/status", (req, res) => {
   try {
-    res.json({ discount });
+    res.json({ discount, np });
   } catch (e) {
     console.error("Ошибка при разборе JSON:", e);
     res.status(500).json({ error: "Неверный формат JSON" });
   }
+});
+
+router.post("/changenp", (req, res) => {
+  np = !np;
+  res.json({ discount });
 });
 
 router.post("/toggle-status", (req, res) => {
