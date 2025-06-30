@@ -93,7 +93,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     const e = req.body;
     //index where to add
 
-    const place = e.place ? e.place : 0;
+    const place = Number(e.place);
     // Создаем функцию для загрузки одного файла в Cloudinary
     const uploadToCloudinary = (file) => {
       return new Promise((resolve, reject) => {
@@ -126,7 +126,7 @@ router.post("/postProduct", upload.array("gallery"), async (req, res) => {
     // console.log(place + "продукт пришел");
     const type = e.type;
     const existingRecord = await Nicotine.findOne({ type });
-    if (place !== 0) {
+    if (!isNaN(place) && place > 0) {
       existingRecord.product.splice(place - 1, 0, productObj);
     } else {
       existingRecord.product.push(productObj);
